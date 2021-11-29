@@ -9,16 +9,14 @@ using System.Threading.Tasks;
 
 namespace WpfTestMailSender
 {
-    public class Library
+    public class EmailSendServiceClass
     {
-
-        public static bool Check(string login, string password)
+        public EmailSendServiceClass()
         {
-            if (login == "admin" && password == "admin") return true;
-            return false;
+
         }
 
-        static public bool MailSend(string _from, string _to, string _subject, string _body, string _login, string _password, IEnumerable attachments = null)
+        public bool MailSend(string _from, string _to, string _subject, string _body, string _login, string _password, IEnumerable attachments = null)
         {
             bool result = false;
             try
@@ -49,7 +47,7 @@ namespace WpfTestMailSender
                 //if (_login.IndexOf('@') > 0) _login = _login.Remove(_login.IndexOf('@'));
 
                 // адрес smtp-сервера и порт, с которого будем отправлять письмо
-                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                SmtpClient smtp = new SmtpClient(Data.SMTP_server, Data.SMTP_port);
                 // логин и пароль
                 smtp.Credentials = new NetworkCredential(_login, _password);
                 smtp.EnableSsl = true;
@@ -57,7 +55,7 @@ namespace WpfTestMailSender
                 result = true;
             }
             catch { }
-            
+
             return result;
         }
     }

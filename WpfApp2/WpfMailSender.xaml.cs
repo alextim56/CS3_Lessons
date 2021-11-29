@@ -15,7 +15,6 @@ using System.Windows.Shapes;
 using System.Net;
 using System.Net.Mail;
 
-
 namespace WpfTestMailSender
 {
     /// <summary>
@@ -26,18 +25,30 @@ namespace WpfTestMailSender
         public WpfMailSender()
         {
             InitializeComponent();
+            tbxFrom.Text = Data.MailSender;
+            tbxTo.Text = Data.MailReciever;
         }
 
-        private void btnSendMail_Click(object sender, RoutedEventArgs e)
+        private void btnSendMail_Click_1(object sender, RoutedEventArgs e)
         {
             string _password = System.IO.File.ReadAllText("C:\\temp\\2.txt");
-            if (Library.MailSend(tbxFrom.Text, tbxTo.Text, tbxTopic.Text, tbxMessage.Text, tbxFrom.Text, _password))
+            Data.MailPassword = System.IO.File.ReadAllText("C:\\temp\\2.txt");
+            EmailSendServiceClass emailSendServiceClass = new EmailSendServiceClass();
+
+            MessageWindow messageWindow = new MessageWindow();
+
+            if (emailSendServiceClass.MailSend(tbxFrom.Text, tbxTo.Text, tbxTopic.Text, tbxMessage.Text, tbxFrom.Text, Data.MailPassword))
             {
-                MessageBox.Show("Письмо успешно отправлено!");
+                messageWindow.tbMessage.Text = "Письмо успешно отправлено!";
+                messageWindow.ShowDialog();
+                //MessageBox.Show("Письмо успешно отправлено!");
             }
             else
             {
-                MessageBox.Show("Ошибка отправки!");
+                messageWindow.tbMessage.Text = "Ошибка отправки!";
+                messageWindow.tbMessage.Foreground = Brushes.Red;
+                messageWindow.ShowDialog();
+                //MessageBox.Show("Ошибка отправки!");
             }
         }
     }

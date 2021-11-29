@@ -17,7 +17,7 @@
                 </LinearGradientBrush>
             </Setter.Value>
         </Setter>
-        <Setter Property="Foreground" Value="Gray" />
+        <Setter Property="Foreground" Value="White" />
         <Setter Property="BorderBrush" Value="Gray" />
     </Style>
 </ResourceDictionary>

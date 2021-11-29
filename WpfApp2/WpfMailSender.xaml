@@ -5,17 +5,39 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp2"
         mc:Ignorable="d"
-        Title="MainWindow" Height="349" Width="534" WindowStartupLocation="CenterScreen" Style="{DynamicResource WindowStyle}">
-    <Grid>
-        <Button Content="Отправить E-mail" x:Name="btnSendMail" HorizontalAlignment="Left" Margin="14,0,0,17" Width="125" Click="btnSendMail_Click" Style="{DynamicResource ButtonStyle}" Height="26" VerticalAlignment="Bottom"/>
-        <TextBox x:Name="tbxFrom" Margin="14,38,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="alexandertimofeev56@gmail.com" HorizontalAlignment="Left" Width="195"/>
-        <Label Content="От" HorizontalAlignment="Left" Margin="14,12,0,0" VerticalAlignment="Top"/>
-        <Label Content="Кому" HorizontalAlignment="Right" Margin="0,12,171,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="tbxTo" Margin="0,38,14,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="nikonov5885@yandex.ru" HorizontalAlignment="Right" Width="195"/>
-        <Label Content="Тема" HorizontalAlignment="Left" Margin="14,62,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="tbxTopic" Margin="14,88,14,0" TextWrapping="Wrap" VerticalAlignment="Top" Text="Test"/>
-        <TextBox x:Name="tbxMessage" Margin="14,142,14,59" TextWrapping="Wrap"/>
-        <Label Content="Сообщение" HorizontalAlignment="Left" Margin="14,111,0,0" VerticalAlignment="Top"/>
+        Title="Почтовый агент" Height="688" Width="1207" WindowStartupLocation="CenterScreen" Style="{DynamicResource WindowStyle}">
+    <Grid ShowGridLines="False">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="20*"/>
+        </Grid.RowDefinitions>
+
+        <TabControl Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3">
+            <TabItem Header="Отправка">
+                <StackPanel Width="400" HorizontalAlignment="Left">
+                    <TextBlock>От</TextBlock>
+                    <TextBox x:Name="tbxFrom" VerticalAlignment="Top" Text="alexandertimofeev56@gmail.com"/>
+                    <TextBlock>Кому</TextBlock>
+                    <TextBox x:Name="tbxTo" VerticalAlignment="Top" Text="nikonov5885@yandex.ru"/>
+                    <TextBlock>Тема</TextBlock>
+                    <TextBox x:Name="tbxTopic" VerticalAlignment="Top" Text="Test"/>
+                    <TextBlock>Сообщение</TextBlock>
+                    <TextBox x:Name="tbxMessage" TextWrapping="Wrap" Height="80" Margin="0,0,0,10"/>
+                    <Button x:Name="btnSendMail" Style="{DynamicResource ButtonStyle}" Width="200" Click="btnSendMail_Click_1">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Отправить E-mail" VerticalAlignment="Center"/>
+                            <Image Source="image/new_mes.png" Width="50"></Image>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </TabItem>
+        </TabControl>
+
 
     </Grid>
 </Window>
