@@ -1,21 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\new_mes.png" />
+    <None Remove="Resources\Button_Next-01.png" />
+    <None Remove="Resources\Button_Previous-01.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ControlsLibrary\ControlsLibrary.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Resources\new_mes.png" />
+    <Resource Include="Resources\Button_Next-01.png" />
+    <Resource Include="Resources\Button_Previous-01.png" />
   </ItemGroup>
 
   <ItemGroup>

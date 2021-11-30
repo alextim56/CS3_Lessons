@@ -20,4 +20,11 @@
         <Setter Property="Foreground" Value="White" />
         <Setter Property="BorderBrush" Value="Gray" />
     </Style>
+    <Style TargetType="TextBox">
+        <Setter Property="Background">
+            <Setter.Value>
+                AliceBlue
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

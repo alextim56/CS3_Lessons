@@ -51,5 +51,40 @@ namespace WpfTestMailSender
                 //MessageBox.Show("Ошибка отправки!");
             }
         }
+
+        private void FileInputBox_FileNameChanged(object sender, EventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine(fileInpBox.FileName);
+        }
+
+        private void fileInpBox_FileNameChanged(object sender, RoutedEventArgs e)
+        {
+            System.Diagnostics.Debug.WriteLine(fileInpBox.FileName);
+        }
+
+        private void miClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void TabSwitcher_btnNextClick(object sender, RoutedEventArgs e)
+        {
+            if (tcTabContrl.SelectedIndex < tcTabContrl.Items.Count - 1)
+            {
+                tcTabContrl.SelectedIndex++;
+                TabSwtchr.IsHidebtnPrevious = false;
+                TabSwtchr.IsHideBtnNext = (tcTabContrl.SelectedIndex >= tcTabContrl.Items.Count - 1);
+            }
+        }
+
+        private void TabSwitcher_btnPreviousClick(object sender, RoutedEventArgs e)
+        {
+            if (tcTabContrl.SelectedIndex > 0)
+            {
+                tcTabContrl.SelectedIndex--;
+                TabSwtchr.IsHideBtnNext = false;
+                TabSwtchr.IsHidebtnPrevious = (tcTabContrl.SelectedIndex <= 0);
+            }
+        }
     }
 }

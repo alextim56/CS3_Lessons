@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WpfApp2"
+        xmlns:ControlsLibrary="clr-namespace:ControlsLibrary;assembly=ControlsLibrary"
         mc:Ignorable="d"
         Title="Почтовый агент" Height="688" Width="1207" WindowStartupLocation="CenterScreen" Style="{DynamicResource WindowStyle}">
     <Grid ShowGridLines="False">
@@ -13,11 +14,17 @@
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"/>
-            <RowDefinition Height="20*"/>
+            <RowDefinition Height="25*"/>
+            <RowDefinition Height="39*"/>
+            <RowDefinition Height="647*"/>
         </Grid.RowDefinitions>
+        <Menu Grid.Row="0" Grid.ColumnSpan="3">
+            <MenuItem Header="Файл">
+                <MenuItem x:Name="miClose" Header="Выход" Click="miClose_Click"/>
+            </MenuItem>
+        </Menu>
 
-        <TabControl Grid.Row="1" Grid.RowSpan="2" Grid.ColumnSpan="3">
+        <TabControl x:Name="tcTabContrl" Grid.Row="2" Grid.ColumnSpan="3" TabIndex="1" Margin="0,5,0,0">
             <TabItem Header="Отправка">
                 <StackPanel Width="400" HorizontalAlignment="Left">
                     <TextBlock>От</TextBlock>
@@ -31,12 +38,28 @@
                     <Button x:Name="btnSendMail" Style="{DynamicResource ButtonStyle}" Width="200" Click="btnSendMail_Click_1">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Отправить E-mail" VerticalAlignment="Center"/>
-                            <Image Source="image/new_mes.png" Width="50"></Image>
+                            <Image Source="/Resources/new_mes.png" Width="50"></Image>
                         </StackPanel>
                     </Button>
                 </StackPanel>
             </TabItem>
+            <TabItem Header="Файлы">
+                <StackPanel>
+                    <ControlsLibrary:FileInputBox x:Name="fileInpBox" FileNameChanged="fileInpBox_FileNameChanged" />
+                    <Label Content="{Binding ElementName=fileInpBox, Path=FileName}"/>
+                </StackPanel>
+            </TabItem>
+            <TabItem Header="Планировщик">
+                <StackPanel>
+                    
+                </StackPanel>
+            </TabItem>
         </TabControl>
+        <ToolBar Grid.Row="1" Grid.RowSpan="1" Grid.ColumnSpan="3">
+            <ControlsLibrary:TabSwitcher x:Name="TabSwtchr" IsHidebtnPrevious="True" btnNextClick="TabSwitcher_btnNextClick" btnPreviousClick="TabSwitcher_btnPreviousClick" />
+        </ToolBar>
+
+
 
 
     </Grid>

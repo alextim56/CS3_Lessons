@@ -5,6 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace WpfTestMailSender
@@ -14,6 +15,13 @@ namespace WpfTestMailSender
         public EmailSendServiceClass()
         {
 
+        }
+
+        //проверка адреса почты с помощью регулярных выражений
+        public bool CheckMailAddress(string email)
+        {
+            Regex eMailAddress = new Regex(@"[A-Za-z]+[\.A-Za-z0-9_-]*[A-Za-z0-9]+@[A-Za-z0-9]+\.[A-Za-z]{2,6}");
+            return eMailAddress.IsMatch(email);
         }
 
         public bool MailSend(string _from, string _to, string _subject, string _body, string _login, string _password, IEnumerable attachments = null)
