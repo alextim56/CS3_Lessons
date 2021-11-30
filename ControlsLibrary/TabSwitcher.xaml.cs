@@ -91,17 +91,53 @@ namespace ControlsLibrary
         }
         #endregion
 
-        public event RoutedEventHandler btnNextClick;
-        public event RoutedEventHandler btnPreviousClick;
+        public static readonly RoutedEvent ClickNextEvent = EventManager.RegisterRoutedEvent("btnNextClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TabSwitcher));
+        public static readonly RoutedEvent ClickPrevEvent = EventManager.RegisterRoutedEvent("btnPreviousClick", RoutingStrategy.Bubble, typeof(RoutedEventHandler), typeof(TabSwitcher));
+
+        public event RoutedEventHandler btnNextClick
+        {
+            add { this.AddHandler(ClickNextEvent, value); }
+            remove { this.RemoveHandler(ClickNextEvent, value); }
+        }
+
+        public event RoutedEventHandler btnPreviousClick
+        {
+            add { this.AddHandler(ClickPrevEvent, value); }
+            remove { this.RemoveHandler(ClickPrevEvent, value); }
+        }
 
         private void btnPrevious_Click(object sender, RoutedEventArgs e)
         {
-            btnPreviousClick?.Invoke(sender, e);
+            //btnPreviousClick?.Invoke(sender, e);
+            e.Handled = true;
+            //вызов события
+            RoutedEventArgs args = new RoutedEventArgs(ClickPrevEvent);
+            RaiseEvent(args);
         }
 
         private void btnNext_Click(object sender, RoutedEventArgs e)
         {
-            btnNextClick?.Invoke(sender, e);
+            //btnNextClick?.Invoke(sender, e);
+            e.Handled = true;
+            //вызов события
+            RoutedEventArgs args = new RoutedEventArgs(ClickNextEvent);
+            RaiseEvent(args);
+        }
+
+        private string nextText = "Далее";
+
+        public string NextText
+        {
+            get { return nextText; }
+            set { nextText = value; }
+        }
+
+        private string prevText = "Назад";
+
+        public string PrevText
+        {
+            get { return prevText; }
+            set { prevText = value; }
         }
     }
 }

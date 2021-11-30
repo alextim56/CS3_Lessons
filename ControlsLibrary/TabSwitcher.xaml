@@ -5,21 +5,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ControlsLibrary"
              mc:Ignorable="d" 
-             d:DesignHeight="30" d:DesignWidth="229">
+             d:DesignHeight="30" d:DesignWidth="229" x:Name="TabControl">
     <Grid VerticalAlignment="Top" Height="29">
         <StackPanel Orientation="Horizontal">
             <Button x:Name="btnPrevious" Width="114" Click="btnPrevious_Click">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="/ControlsLibrary;component/Resources/Button_Previous-01.png" Width="30"/>
-                        <TextBlock Margin="3,0,0,0" Text="Предыдущий" VerticalAlignment="Center"/>
+                        <TextBlock Margin="3,0,0,0" Text="{Binding PrevText, ElementName=TabControl}" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button.Content>
             </Button>
             <Button x:Name="btnNext" Width="115" Click="btnNext_Click">
                 <Button.Content>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Margin="3,0,0,0" Text="Следующий" VerticalAlignment="Center"/>
+                        <TextBlock Margin="3,0,0,0" Text="{Binding NextText, ElementName=TabControl}" VerticalAlignment="Center"/>
                         <Image Source="/ControlsLibrary;component/Resources/Button_Next-01.png" Width="30"/>
                     </StackPanel>
                 </Button.Content>
