@@ -124,20 +124,17 @@ namespace ControlsLibrary
             RaiseEvent(args);
         }
 
-        private string nextText = "Далее";
-
+        public static readonly DependencyProperty NextTextProperty = DependencyProperty.Register("NextText", typeof(string), typeof(TabSwitcher));
+        public static readonly DependencyProperty PrevTextProperty = DependencyProperty.Register("PrevText", typeof(string), typeof(TabSwitcher));
         public string NextText
         {
-            get { return nextText; }
-            set { nextText = value; }
+            get { return (string)GetValue(NextTextProperty); }
+            set { SetValue(NextTextProperty, value); }
         }
-
-        private string prevText = "Назад";
-
         public string PrevText
         {
-            get { return prevText; }
-            set { prevText = value; }
+            get { return (string)GetValue(PrevTextProperty); }
+            set { SetValue(PrevTextProperty, value); }
         }
     }
 }

@@ -14,5 +14,11 @@ namespace WpfTestMailSender
         public static string MailPassword;
         public static string SMTP_server = "smtp.gmail.com";
         public static int SMTP_port = 587;
+
+        public static bool Check(string login, string password)
+        {
+            if (login == "admin" && password == "admin") return true;
+            return false;
+        }
     }
 }

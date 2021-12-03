@@ -27,4 +27,11 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <Style TargetType="PasswordBox">
+        <Setter Property="Background">
+            <Setter.Value>
+                AliceBlue
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>
