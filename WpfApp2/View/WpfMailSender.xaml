@@ -13,6 +13,16 @@
     <Window.DataContext>
         <vm:ViewModel/>
     </Window.DataContext>
+    <Window.Resources>
+        <ControlTemplate x:Key="validationFailed">
+            <StackPanel Orientation="Horizontal">
+                <Border BorderBrush="Violet" BorderThickness="2">
+                    <AdornedElementPlaceholder />
+                </Border>
+                <TextBlock Foreground="Red" FontSize="26" FontWeight="Bold">!</TextBlock>
+            </StackPanel>
+        </ControlTemplate>
+    </Window.Resources>
     <Grid ShowGridLines="False">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
@@ -36,21 +46,37 @@
                     <TextBlock>Пользователь</TextBlock>
                     <TextBox x:Name="tbLogin" Text="{Binding Login, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
                     <TextBlock>Пароль</TextBlock>
-                    <TextBox x:Name="tbPassword" Text="{Binding Passwrd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></TextBox>
+                    <TextBox x:Name="tbPassword" Text="{Binding Passwrd, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        
+                    </TextBox>
                     <Button Content="Войти" Command="{Binding AccessCommand}" CommandParameter="{Binding ElementName=tcTabContrl}" Style="{DynamicResource ButtonStyle}"></Button>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Отправка" IsEnabled="False" x:Name="TabSend">
                 <StackPanel Width="400" HorizontalAlignment="Left">
                     <TextBlock>От</TextBlock>
-                    <TextBox x:Name="tbxFrom" VerticalAlignment="Top" Text="{Binding FromMail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox x:Name="tbxFrom" VerticalAlignment="Top">
+                        <Binding Path="FromMail" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True" NotifyOnValidationError="True">
+                            <Binding.ValidationRules>
+                                <DataErrorValidationRule />
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox>
                     <TextBlock>Кому</TextBlock>
-                    <TextBox x:Name="tbxTo" VerticalAlignment="Top" Text="{Binding ToMail, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox x:Name="tbxTo" VerticalAlignment="Top">
+                        <TextBox.Text>
+                            <Binding Path="ToMail" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True" NotifyOnValidationError="True">
+                                <Binding.ValidationRules>
+                                    <DataErrorValidationRule />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
                     <TextBlock>Тема</TextBlock>
                     <TextBox x:Name="tbxTopic" VerticalAlignment="Top" Text="{Binding MailSubject, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     <TextBlock>Сообщение</TextBlock>
                     <TextBox x:Name="tbxMessage" TextWrapping="Wrap" Text="{Binding MailBody, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Height="80" Margin="0,0,0,10"/>
-                    <Button x:Name="btnSendMail" Command="{Binding SendCommand}" CommandParameter="{Binding ElementName=TabSend}" Style="{DynamicResource ButtonStyle}" Width="200">
+                    <Button x:Name="btnSendMail" Command="{Binding SendCommand}" CommandParameter="{Binding ElementName=TabSend}" IsEnabled="{Binding Path=EmailIsValid, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Style="{DynamicResource ButtonStyle}" Width="200">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="Отправить E-mail" VerticalAlignment="Center"/>
                             <Image Source="/Resources/new_mes.png" Width="50"></Image>

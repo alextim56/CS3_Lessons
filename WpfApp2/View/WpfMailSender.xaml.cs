@@ -37,6 +37,11 @@ namespace WpfTestMailSender
             this.Close();
         }
 
+        private void tbxTo_Error(object sender, ValidationErrorEventArgs e)
+        {
+            
+        }
+
         //private void TabSwitcher_btnNextClick(object sender, RoutedEventArgs e)
         //{
         //    if (tcTabContrl.SelectedIndex < tcTabContrl.Items.Count - 1)

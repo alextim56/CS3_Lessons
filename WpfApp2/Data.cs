@@ -9,7 +9,7 @@ namespace WpfTestMailSender
     
     public static class Data
     {
-        public static string MailSender = "alexandertimofeev56@gmail.com";
+        public static string MailSender = "alexandertimofeev56@gmail";
         public static string MailReciever = "nikonov5885@yandex.ru";
         public static string MailPassword;
         public static string SMTP_server = "smtp.gmail.com";

@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace WpfTestMailSender
 {
-    public class EmailSendServiceClass
+    public class EmailSendServiceClass 
     {
         public EmailSendServiceClass()
         {

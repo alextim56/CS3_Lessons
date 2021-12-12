@@ -11,11 +11,11 @@ using System.Windows.Media;
 
 namespace WpfTestMailSender.ViewModel
 {
-    class ViewModel : INotifyPropertyChanged
+    class ViewModel : INotifyPropertyChanged, IDataErrorInfo
     {
         public static readonly DependencyProperty PasswordProperty = DependencyProperty.Register("Passwrd", typeof(string), typeof(WpfMailSender));
 
-        private string _login;
+        private string _login = "admin";
         public string Login
         {
             get { return _login; }
@@ -28,7 +28,7 @@ namespace WpfTestMailSender.ViewModel
                 }
             }
         }
-        private string _passwrd;
+        private string _passwrd = "admin";
         public string Passwrd
         {
             get { return _passwrd; }
@@ -55,17 +55,22 @@ namespace WpfTestMailSender.ViewModel
         {
             if (Data.Check(_login, _passwrd) && obj is TabControl)
             {
-                TabControl tc = obj as TabControl;
-                tc.IsEnabled = true;
-                tc.SelectedIndex = 1;
-                foreach(TabItem tabItem in tc.Items)
+                _tc = obj as TabControl;
+                _tc.IsEnabled = true;
+                _tc.SelectedIndex = 1;
+                foreach(TabItem tabItem in _tc.Items)
                 {
                     tabItem.IsEnabled = true;
                 }
-                updateHeader(tc);
+                updateHeader(_tc, _tc.SelectedIndex);
                 //TabItem tabItem = tc.Items[1] as TabItem;
                 //tabItem.IsEnabled = true;
             }
+        }
+
+        public void SenderError(object sender, ValidationErrorEventArgs e)
+        {
+            EmailIsValid = false;
         }
 
         public string FromMail { get; set; } = Data.MailSender;
@@ -113,6 +118,7 @@ namespace WpfTestMailSender.ViewModel
                 if (_nextTabName != value)
                 {
                     _nextTabName = value;
+                    System.Diagnostics.Debug.WriteLine("NextTabName setter");
                     PropertyChanged.Invoke(this, new PropertyChangedEventArgs("NextTabName"));
                 }
             }
@@ -127,6 +133,7 @@ namespace WpfTestMailSender.ViewModel
                 if (_prevTabName != value)
                 {
                     _prevTabName = value;
+                    System.Diagnostics.Debug.WriteLine("PrevTabName setter");
                     PropertyChanged.Invoke(this, new PropertyChangedEventArgs("PrevTabName"));
                 }
             }
@@ -146,25 +153,32 @@ namespace WpfTestMailSender.ViewModel
                     tabControlIndex = value;
                     System.Diagnostics.Debug.WriteLine("TabControlIndex changed");
                     PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("TabControlIndex"));
+                    updateHeader(_tc, tabControlIndex);
                 }
             }
         }
 
-        private void updateHeader(TabControl tc)
+        private TabControl _tc;
+
+        private void updateHeader(TabControl tc, int sel_ind)
         {
-            int sel = tc.SelectedIndex;
-            int nn = sel + 1;
-            int pn = sel - 1;
-            if (nn > tc.Items.Count - 1) nn = 0;
-            if (pn < 0) pn = tc.Items.Count - 1;
-            NextTabName = (tc.Items[nn] as TabItem).Header.ToString();
-            PrevTabName = (tc.Items[pn] as TabItem).Header.ToString();
+            if (tc != null)
+            {
+                //int sel = tc.SelectedIndex;
+                int nn = sel_ind + 1;
+                int pn = sel_ind - 1;
+                if (nn > tc.Items.Count - 1) nn = 0;
+                if (pn < 0) pn = tc.Items.Count - 1;
+                NextTabName = (tc.Items[nn] as TabItem).Header.ToString();
+                PrevTabName = (tc.Items[pn] as TabItem).Header.ToString();
+            }
         }
 
         private void ExecuteNextTab(object obj)
         {
             if (obj is TabControl)
             {
+                _tc = obj as TabControl;
                 TabControl tc = obj as TabControl;
                 int nextInd = TabControlIndex;
                 if (TabControlIndex >= tc.Items.Count - 1)
@@ -178,7 +192,7 @@ namespace WpfTestMailSender.ViewModel
                 if ((tc.Items[nextInd] as TabItem).IsEnabled)
                 {
                     TabControlIndex = nextInd;
-                    updateHeader(tc);
+                    updateHeader(tc, tabControlIndex);
                 }
             }
         }
@@ -189,12 +203,17 @@ namespace WpfTestMailSender.ViewModel
             {
                 return new DelegateCommand(ExecuteNextTab);
             }
+            set
+            {
+                System.Diagnostics.Debug.WriteLine("TabControlIndex set next");
+            }
         }
 
         private void ExecutePrevTab(object obj)
         {
             if (obj is TabControl)
             {
+                _tc = obj as TabControl;
                 TabControl tc = obj as TabControl;
                 int nextInd = TabControlIndex;
                 if (TabControlIndex == 0)
@@ -208,7 +227,7 @@ namespace WpfTestMailSender.ViewModel
                 if ((tc.Items[nextInd] as TabItem).IsEnabled)
                 {
                     TabControlIndex = nextInd;
-                    updateHeader(tc);
+                    updateHeader(tc, tabControlIndex);
                 }
             }
         }
@@ -219,6 +238,67 @@ namespace WpfTestMailSender.ViewModel
             {
                 return new DelegateCommand(ExecutePrevTab);
             }
+            set
+            {
+                System.Diagnostics.Debug.WriteLine("TabControlIndex set prev");
+            }
         }
+
+        private bool _emailValid = false;
+
+        public bool EmailIsValid 
+        { 
+            get { return _emailValid; } 
+            set
+            {
+                if (_emailValid != value)
+                {
+                    _emailValid = value;
+                    System.Diagnostics.Debug.WriteLine("EmailIsValid setter");
+                    PropertyChanged.Invoke(this, new PropertyChangedEventArgs("EmailIsValid"));
+                }
+            }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                string error = String.Empty;
+                string error1 = String.Empty;
+                string error2 = String.Empty;
+
+                if (new EmailSendServiceClass().CheckMailAddress(FromMail) == false)
+                {
+                    error1 = "Ошибка в адресе электронной почты";
+                }
+                if (new EmailSendServiceClass().CheckMailAddress(ToMail) == false)
+                {
+                    error2 = "Ошибка в адресе электронной почты";
+                }
+
+                switch (columnName)
+                {
+                    case "FromMail":
+                        if (new EmailSendServiceClass().CheckMailAddress(FromMail) == false) error = error1;
+                        break;
+                    case "ToMail":
+                        if (new EmailSendServiceClass().CheckMailAddress(ToMail) == false) error = error2;
+                        break;
+
+                    default:
+                        break;
+                        //throw new ArgumentException("Unrecognized property: " + columnName);
+                }
+                EmailIsValid = (error1 == String.Empty && error2 == String.Empty);
+                return error;
+            }
+        }
+
+        public string Error
+        {
+            get { return "wrong"; }
+        }
+
     }
 }
